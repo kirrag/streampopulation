@@ -14,33 +14,31 @@ public class Main {
 		Collection<Person> persons = new ArrayList<>();
 
 		for (int i = 0; i < 10_000_000; i++) {
-		    persons.add(new Person(
-        	    names.get(new Random().nextInt(names.size())),
-            	families.get(new Random().nextInt(families.size())),
-            	new Random().nextInt(100),
-            	Sex.values()[new Random().nextInt(Sex.values().length)],
-                Education.values()[new Random().nextInt(Education.values().length)])
-    		);
+			persons.add(new Person(
+					names.get(new Random().nextInt(names.size())),
+					families.get(new Random().nextInt(families.size())),
+					new Random().nextInt(100),
+					Sex.values()[new Random().nextInt(Sex.values().length)],
+					Education.values()[new Random().nextInt(Education.values().length)]));
 		}
 
 		long minors = persons.stream()
-			.filter(x -> x.getAge() < 18)
-			.count();
+				.filter(x -> x.getAge() < 18)
+				.count();
 
 		System.out.println("Количество несовршенолетних: " + minors);
 
 		List<String> peopleOfMilitaryAge = persons.stream()
-			.filter(x -> (x.getAge() >= 18 && x.getAge() <= 27 && x.getSex().equals("MAN")))
-			.map(x -> x.getFamily())
-			.collect(Collectors.toList());
+				.filter(x -> (x.getAge() >= 18 && x.getAge() <= 27 && x.getSex().equals("MAN")))
+				.map(x -> x.getFamily())
+				.collect(Collectors.toList());
 
 		Collection<Person> peopleOfWorkingAge = persons.stream()
-			.filter(x -> ((x.getAge() >= 18 && x.getAge() <= 60 && x.getSex().equals("WOMAN") && x.getEducation().equals("HIGHER")) 
-					   || (x.getAge() >= 18 && x.getAge() <= 65 && x.getSex().equals("MAN")   && x.getEducation().equals("HIGHER"))))
-			.sorted(Comparator.naturalOrder())
-			.collect(Collectors.toList());
-
+				.filter(x -> ((x.getAge() >= 18 && x.getAge() <= 60 && x.getSex().equals("WOMAN")
+						&& x.getEducation().equals("HIGHER"))
+						|| (x.getAge() >= 18 && x.getAge() <= 65 && x.getSex().equals("MAN")
+								&& x.getEducation().equals("HIGHER"))))
+				.sorted((x1, x2) -> x1.getFamily().compareTo(x2.getFamily()))
+				.collect(Collectors.toList());
 	}
-
-
 }
